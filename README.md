@@ -4,6 +4,7 @@
 This is an utility tool to upload data in bulk mode to Hbase using Spark. Currently it can upload tsv and csv. Avro and parquet support will be provided later. 
 	
 Spark Version: 1.6.2+
+
 Hbase Version: 1.2.2
 
 Spark version can be changed by modifying pom.
@@ -54,30 +55,50 @@ For "date" type, value is always calculated from current date time.
 {"key": "d", "value": "-d 1 -h 0 -f yyyy-MM-dd", "type": "date"}
 
 Here, 
-	"-d 1" indicates 1 day before from current day.
-      "-h 0" indicates 0 hour before current hour.
-	  "-f yyyy-MM-dd" is the date format. 
-	  If current date time is 2017-03-02 05:34:55, {"key": "d", "value": "-d 1 -h 0 -f yyyy-MM-dd", "type": "date"} denotes "d=2017-03-01/"
+	
+"-d 1" indicates 1 day before from current day.
+
+"-h 0" indicates 0 hour before current hour.
+
+"-f yyyy-MM-dd" is the date format. 
+
+
+If current date time is 2017-03-02 05:34:55, {"key": "d", "value": "-d 1 -h 0 -f yyyy-MM-dd", "type": "date"} denotes "d=2017-03-01/"
+
+
 
 A complete example: 
+
 If current date time is 2017-03-02 01:34:55,
+
 s3_base_location : s3://bucket1/p1/
+
 s3_path_param_json: '[{"key": "d", "value": "-d 1 -h 0 -f yyyy-MM-dd", "type": "date"}, {"key": "h", "value": "-d 0 -h 1 -f HH", "type": "date"}, {"key": "p", "value": "market", "type": "text"}]'
+
 These two configuration generates s3://bucket1/p1/d=2017-03-01/h=00/p=market/ as the source path.
 
+
+
 **s3_data_delimiter**: Delimiter of the source data. e.g, "\\t" or ","
+
 **s3_columns_in_order**: Array of column names (in order) of source data.
+
 e.g,
     - uid
     - categoryId
     - ruleId
     - prob
+
 **key_column**: Source column name for HBASE Key. 
+
 **hbase_host**: Host URL of HBASE master. 
+
 **hbase_table_name**: HBASE table name.
+
 **hbase_column_qualifier_separator**: Separator character of column qualifiers. e.g, "-"
 
 **hbase_column_families**: Array of object for HBASE Column Family configuration.
+    
     - **name**: HBASE Column Family name.
       **column_qualifiers_in_order**: Array of HBASE Column Qualifier configuration. 
       e.g, 
