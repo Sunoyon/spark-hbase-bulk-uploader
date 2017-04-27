@@ -33,51 +33,33 @@ This spark-submit configuration is for 4 r3.4xlarge of AWS EMR cluster.
 
 **s3_path_param_json**: Array of json object. Needed for dynamic path partition. It must be empty string when data exists in the base location. 
 
-e.g, '[{"key": "d", "value": "-d 1 -h 0 -f yyyy-MM-dd", "type": "date"}, {"key": "h", "value": "-d 0 -h 1 -f HH", "type": "date"}, {"key": "p", "value": "market", "type": "text"}]'
+	e.g, '[{"key": "d", "value": "-d 1 -h 0 -f yyyy-MM-dd", "type": "date"}, {"key": "h", "value": "-d 0 -h 1 -f HH", "type": "date"}, {"key": "p", "value": "market", "type": "text"}]'
 
-Json Object Details:
-- key: Key of the path partition.
-- value: value of the path partition.
-- type: partition type. Currently supported type: 'date' and 'text'.
+	Json Object Details:
+	- key: Key of the path partition.
+	- value: value of the path partition.
+	- type: partition type. Currently supported type: 'date' and 'text'.
 
-e.g, 
+	e.g, 
+	For "text" type
+	{"key": "p", "value": "market", "type": "text"} denotes the path partition is "p=market/"
+	{"key": "", "value": "market", "type": "text"} denotes the path partition is "market/"
 
-For "text" type
+	For "date" type, value is always calculated from current date time. 
+	{"key": "d", "value": "-d 1 -h 0 -f yyyy-MM-dd", "type": "date"}
+	Here, 	
+	"-d 1" indicates 1 day before from current day.
+	"-h 0" indicates 0 hour before current hour.
+	"-f yyyy-MM-dd" is the date format. 
 
-{"key": "p", "value": "market", "type": "text"} denotes the path partition is "p=market/"
-
-{"key": "", "value": "market", "type": "text"} denotes the path partition is "market/"
-
-
-
-For "date" type, value is always calculated from current date time. 
-
-{"key": "d", "value": "-d 1 -h 0 -f yyyy-MM-dd", "type": "date"}
-
-Here, 
-	
-"-d 1" indicates 1 day before from current day.
-
-"-h 0" indicates 0 hour before current hour.
-
-"-f yyyy-MM-dd" is the date format. 
+	If current date time is 2017-03-02 05:34:55, {"key": "d", "value": "-d 1 -h 0 -f yyyy-MM-dd", "type": "date"} denotes "d=2017-03-01/"
 
 
-If current date time is 2017-03-02 05:34:55, {"key": "d", "value": "-d 1 -h 0 -f yyyy-MM-dd", "type": "date"} denotes "d=2017-03-01/"
-
-
-
-A complete example: 
-
-If current date time is 2017-03-02 01:34:55,
-
-s3_base_location : s3://bucket1/p1/
-
-s3_path_param_json: '[{"key": "d", "value": "-d 1 -h 0 -f yyyy-MM-dd", "type": "date"}, {"key": "h", "value": "-d 0 -h 1 -f HH", "type": "date"}, {"key": "p", "value": "market", "type": "text"}]'
-
-These two configuration generates s3://bucket1/p1/d=2017-03-01/h=00/p=market/ as the source path.
-
-
+	A complete example: 
+	If current date time is 2017-03-02 01:34:55,
+	s3_base_location : s3://bucket1/p1/
+	s3_path_param_json: '[{"key": "d", "value": "-d 1 -h 0 -f yyyy-MM-dd", "type": "date"}, {"key": "h", "value": "-d 0 -h 1 -f HH", "type": "date"}, {"key": "p", "value": "market", "type": "text"}]'
+	These two configuration generates s3://bucket1/p1/d=2017-03-01/h=00/p=market/ as the source path.
 
 **s3_data_delimiter**: Delimiter of the source data. e.g, "\\t" or ","
 
