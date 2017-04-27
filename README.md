@@ -29,6 +29,34 @@ This spark-submit configuration is for 4 r3.4xlarge of AWS EMR cluster.
 
 ## Yaml Configuration Details
 
+Configuration Example:
+
+	s3_base_location: s3://bucket1/p1/
+	s3_path_param_json: '[{"key": "d", "value": "-d 1 -h 0 -f yyyy-MM-dd", "type": "date"}, {"key": "h", "value": "-d 0 -h 1 -f HH", "type": "date"}, {"key": "p", "value": "market", "type": "text"}]'
+	s3_data_delimiter: "\\t"
+	s3_columns_in_order: 
+	    - uid
+	    - categoryId
+	    - ruleId
+	    - prob
+	key_column: uid
+	hbase_host: xxx.xxx.xxx.xxx 
+	hbase_table_name: test-table
+	hbase_column_qualifier_separator: "-"
+
+	hbase_column_families:
+	    - name: cf 
+	      column_qualifiers_in_order:
+		  iab: TEXT
+		  ruleId: VALUE
+		  categoryId: VALUE
+	      value_column: 
+		  prob: VALUE
+	      hfile_per_region: 1
+	      s3_dest_base_location: s3://bucket1/p2/
+	      s3_dest_path_param_json: '[{"key": "d", "value": "-d 1 -h 0 -f yyyy-MM-dd", "type": "date"}, {"key": "h", "value": "-d 0 -h 1 -f HH", "type": "date"}]'
+
+
 **s3_base_location**: Base location of data source. e.g, s3://bucket1/p1/
 
 **s3_path_param_json**: Array of json object. Needed for dynamic path partition. It must be empty string when data exists in the base location. 
