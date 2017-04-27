@@ -2,8 +2,10 @@
 # Spark Hbase Bulk Uploader
 
 This is an utility tool to upload data in bulk mode to Hbase using Spark. Currently it can upload tsv and csv. Avro and parquet support will be provided later. 
-	Spark Version: 1.6.2+
-	Hbase Version: 1.2.2
+	
+Spark Version: 1.6.2+
+Hbase Version: 1.2.2
+
 Spark version can be changed by modifying pom.
 
 ## Spark Submit
@@ -27,7 +29,9 @@ This spark-submit configuration is for 4 r3.4xlarge of AWS EMR cluster.
 ## Yaml Configuration Details
 
 **s3_base_location**: Base location of data source. e.g, s3://bucket1/p1/
+
 **s3_path_param_json**: Array of json object. Needed for dynamic path partition. It must be empty string when data exists in the base location. 
+
 e.g, '[{"key": "d", "value": "-d 1 -h 0 -f yyyy-MM-dd", "type": "date"}, {"key": "h", "value": "-d 0 -h 1 -f HH", "type": "date"}, {"key": "p", "value": "market", "type": "text"}]'
 
 Json Object Details:
@@ -36,14 +40,22 @@ Json Object Details:
 - type: partition type. Currently supported type: 'date' and 'text'.
 
 e.g, 
+
 For "text" type
+
 {"key": "p", "value": "market", "type": "text"} denotes the path partition is "p=market/"
+
 {"key": "", "value": "market", "type": "text"} denotes the path partition is "market/"
 
+
+
 For "date" type, value is always calculated from current date time. 
+
 {"key": "d", "value": "-d 1 -h 0 -f yyyy-MM-dd", "type": "date"}
-Here, "-d 1" indicates 1 day before from current day.
-	  "-h 0" indicates 0 hour before current hour.
+
+Here, 
+	"-d 1" indicates 1 day before from current day.
+      "-h 0" indicates 0 hour before current hour.
 	  "-f yyyy-MM-dd" is the date format. 
 	  If current date time is 2017-03-02 05:34:55, {"key": "d", "value": "-d 1 -h 0 -f yyyy-MM-dd", "type": "date"} denotes "d=2017-03-01/"
 
