@@ -59,7 +59,7 @@ This spark-submit configuration is for 4 r3.4xlarge of AWS EMR cluster.
 **Final Configuration:**
 
 	s3_base_location: s3://bucket1/p1/
-	s3_path_param_json: '[{"key": "d", "value": "-d 1 -h 0 -f yyyy-MM-dd", "type": "date"}, {"key": "h", "value": "-d 0 -h 1 -f HH", "type": "date"}, {"key": "p", "value": "market", "type": "text"}]'
+	s3_path_param_json: ''
 	s3_data_delimiter: "\\t"
 	s3_columns_in_order: 
 	    - uid
@@ -81,7 +81,7 @@ This spark-submit configuration is for 4 r3.4xlarge of AWS EMR cluster.
 		  prob: VALUE
 	      hfile_per_region: 1
 	      s3_dest_base_location: s3://bucket1/p2/
-	      s3_dest_path_param_json: '[{"key": "d", "value": "-d 1 -h 0 -f yyyy-MM-dd", "type": "date"}, {"key": "h", "value": "-d 0 -h 1 -f HH", "type": "date"}]'
+	      s3_dest_path_param_json: ''
 
 
 ### Description of Config Fields
