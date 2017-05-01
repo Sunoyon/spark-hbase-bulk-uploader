@@ -56,7 +56,7 @@ This spark-submit configuration is for 4 r3.4xlarge of AWS EMR cluster.
 
 	timestamp is data upload time.
 
-**Configuration:**
+**Final Configuration:**
 
 	s3_base_location: s3://bucket1/p1/
 	s3_path_param_json: '[{"key": "d", "value": "-d 1 -h 0 -f yyyy-MM-dd", "type": "date"}, {"key": "h", "value": "-d 0 -h 1 -f HH", "type": "date"}, {"key": "p", "value": "market", "type": "text"}]'
@@ -84,7 +84,7 @@ This spark-submit configuration is for 4 r3.4xlarge of AWS EMR cluster.
 	      s3_dest_path_param_json: '[{"key": "d", "value": "-d 1 -h 0 -f yyyy-MM-dd", "type": "date"}, {"key": "h", "value": "-d 0 -h 1 -f HH", "type": "date"}]'
 
 
-### Configuration Description
+### Description of Config Fields
 
 **s3_base_location**: Base location of data source. e.g, s3://bucket1/p1/
 
@@ -117,7 +117,7 @@ This spark-submit configuration is for 4 r3.4xlarge of AWS EMR cluster.
 	s3_base_location : s3://bucket1/p1/
 	s3_path_param_json: '[{"key": "d", "value": "-d 1 -h 0 -f yyyy-MM-dd", "type": "date"}, {"key": "h", "value": "-d 0 -h 1 -f HH", "type": "date"}, {"key": "p", "value": "market", "type": "text"}]'
 	
-	These two configuration generates s3://bucket1/p1/d=2017-03-01/h=00/p=market/ as the source path.
+	These two configuration fields generate s3://bucket1/p1/d=2017-03-01/h=00/p=market/ as the source path.
 
 **s3_data_delimiter**: Delimiter of the source data. e.g, "\\t" or ","
 
