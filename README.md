@@ -27,9 +27,36 @@ This spark-submit configuration is for 4 r3.4xlarge of AWS EMR cluster.
 	spark-hbase-upload-0.0.1-jar-with-dependencies.jar \
 	example_config.yaml
 
-## Yaml Configuration Details
+## Yaml Configuration Details with Example
 
-Configuration Example:
+**Input TSV Data Schema:**
+
+	uid	categoryId	ruleId	prob
+
+**Output HBASE Data Format**
+
+	Key: uid
+	Column Family: cf
+	Column Qualifier: iab-categoryId-ruleId
+	Value: prob
+	
+	Here, iab is a constant string.
+	
+**Sample Example**
+	
+	Input TSV:
+	1000000005624220581	100	5	0.6
+	1000000005624220581	101	3	0.7
+	
+	Output HBASE ROW:
+	
+	ROW                                            COLUMN+CELL                                                             
+ 	1000000005624220581                           column=cf:iab-100-5, timestamp=1492965215857, value=0.6
+	1000000005624220581                           column=cf:iab-101-3, timestamp=1492965215857, value=0.7 
+
+	timestamp is data upload time.
+
+**Configuration:**
 
 	s3_base_location: s3://bucket1/p1/
 	s3_path_param_json: '[{"key": "d", "value": "-d 1 -h 0 -f yyyy-MM-dd", "type": "date"}, {"key": "h", "value": "-d 0 -h 1 -f HH", "type": "date"}, {"key": "p", "value": "market", "type": "text"}]'
@@ -56,6 +83,8 @@ Configuration Example:
 	      s3_dest_base_location: s3://bucket1/p2/
 	      s3_dest_path_param_json: '[{"key": "d", "value": "-d 1 -h 0 -f yyyy-MM-dd", "type": "date"}, {"key": "h", "value": "-d 0 -h 1 -f HH", "type": "date"}]'
 
+
+### Configuration Description
 
 **s3_base_location**: Base location of data source. e.g, s3://bucket1/p1/
 
@@ -129,18 +158,4 @@ Configuration Example:
       s3_dest_base_location: Base location of final hfile. Hfile is stored in file format for future purpose. 
       
       s3_dest_path_param_json: Path partition of final hfile location. It should be same as s3_path_param_json.
-
-For example: 
 	
-	A row from HBASE of the configuration.
-	
-	ROW                                            COLUMN+CELL                                                             
- 	1000000005624220581                           column=cf:iab-100-5, timestamp=1492965215857, value=0.6  
-
-	1000000005624220581: HBASE Key. ["uid" from source data]
-	value=0.6: Value Field. ["prob" from source data]
-	cf: Column Family.
-	iab-100-5: Column Qualifiers. 
-		iab: Constant Text.
-		100: "ruleId"  from source data.
-		5: "categoryId" from source data.
