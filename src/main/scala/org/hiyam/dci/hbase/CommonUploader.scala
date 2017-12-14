@@ -80,7 +80,7 @@ object CommonUploader {
     var hbaseConf = HBaseConfiguration.create()
     hbaseConf.set("hbase.zookeeper.quorum", config.getHbaseHost())
 
-    val data = readData(sqlContext, schema, dataDir, false, config.getDelimiter(), true)
+    val data = readData(sqlContext, schema, dataDir, config.getIsColumnHeader(), config.getDelimiter(), true)
     for (cf <- config.getHbaseColumnFamilies().asScala.toList) {
       val colQual = LinkedHashMap(cf.getColumnQualifiersInOrder().asScala.toSeq: _*)
       val valMap = cf.getValueColumn().asScala.head

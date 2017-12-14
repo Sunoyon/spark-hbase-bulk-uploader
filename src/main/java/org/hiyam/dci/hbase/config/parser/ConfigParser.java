@@ -50,7 +50,8 @@ public class ConfigParser {
 		List<Map<String, String>> pathParam = mapper.readValue((String) yamlParsers.get("s3_path_param_json"),
 				new TypeReference<List<Map<String, String>>>() {
 				});
-		return new Task((String) yamlParsers.get("s3_base_location"), pathParam,
+		Boolean isColumnHeader = Boolean.valueOf(String.valueOf(yamlParsers.get("s3_columns_header")));
+		return new Task((String) yamlParsers.get("s3_base_location"), pathParam, isColumnHeader,
 				(List<String>) yamlParsers.get("s3_columns_in_order"), (String) yamlParsers.get("key_column"),
 				(String) yamlParsers.get("hbase_host"), (String) yamlParsers.get("hbase_table_name"),
 				(String) yamlParsers.get("hbase_column_qualifier_separator"), cfConfig,

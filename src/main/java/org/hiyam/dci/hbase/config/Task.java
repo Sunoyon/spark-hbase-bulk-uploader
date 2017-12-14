@@ -7,6 +7,7 @@ public class Task {
 
 	private String s3BaseLocation;
 	private List<Map<String, String>> s3PathParam;
+	private Boolean isColumnHeader;
 	private List<String> s3ColumnsInOrder;
 	private String keyColumn;
 	private String hbaseHost;
@@ -18,11 +19,12 @@ public class Task {
 	public Task() {
 	}
 
-	public Task(String s3BaseLocation, List<Map<String, String>> s3PathParam, List<String> s3ColumnsInOrder, String keyColumn,
-			String hbaseHost, String hbaseTableName, String hbaseColumnQualifierSeparator,
-			List<ColumnFamilyConfig> hbaseColumnFamilies, String delimiter) {
+	public Task(String s3BaseLocation, List<Map<String, String>> s3PathParam, Boolean isColumnHeader,
+			List<String> s3ColumnsInOrder, String keyColumn, String hbaseHost, String hbaseTableName,
+			String hbaseColumnQualifierSeparator, List<ColumnFamilyConfig> hbaseColumnFamilies, String delimiter) {
 		this.s3BaseLocation = s3BaseLocation;
 		this.s3PathParam = s3PathParam;
+		this.isColumnHeader = isColumnHeader;
 		this.s3ColumnsInOrder = s3ColumnsInOrder;
 		this.keyColumn = keyColumn;
 		this.hbaseHost = hbaseHost;
@@ -102,6 +104,14 @@ public class Task {
 
 	public void setHbaseColumnFamilies(List<ColumnFamilyConfig> hbaseColumnFamilies) {
 		this.hbaseColumnFamilies = hbaseColumnFamilies;
+	}
+
+	public Boolean getIsColumnHeader() {
+		return isColumnHeader;
+	}
+
+	public void setIsColumnHeader(Boolean isColumnHeader) {
+		this.isColumnHeader = isColumnHeader;
 	}
 
 }
