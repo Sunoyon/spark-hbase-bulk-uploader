@@ -21,6 +21,7 @@ import org.apache.hadoop.hbase.HBaseConfiguration
 import scala.collection.mutable.HashMap
 import org.hiyam.dci.hbase.utils.SystemUtils
 import scala.collection.mutable.LinkedHashMap
+import org.apache.spark.sql.SparkSession
 
 object CommonUploader {
   def readData(sqlContext: SQLContext, schema: StructType, path: String, isHeader: Boolean, delimiter: String, isZip: Boolean): DataFrame = {
@@ -41,7 +42,7 @@ object CommonUploader {
   }
 
   def getRows(df: DataFrame, columnFamily: String, key: String, columnQualifiers: LinkedHashMap[String, String], valueMap: (String, String), separator: String): RDD[(Array[Byte], Map[String, Array[(String, (String, Long))]])] = {
-    df.map(r => {
+    df.rdd.map(r => {
       (r.getAs[String](key), r)
     }).groupByKey().map(r => {
       val rowKey = r._1
@@ -74,7 +75,7 @@ object CommonUploader {
 
     val conf = new SparkConf().setAppName("Hbase-Bulk-Uploader")
     val sc = new SparkContext(conf)
-    val sqlContext = SQLContext.getOrCreate(sc)
+    val sqlContext = new SQLContext(sc)
 
     var hbaseConf = HBaseConfiguration.create()
     hbaseConf.set("hbase.zookeeper.quorum", config.getHbaseHost())
